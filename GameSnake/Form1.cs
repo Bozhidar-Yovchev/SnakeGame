@@ -13,7 +13,9 @@ namespace GameSnake
 {
     public partial class Form1 : Form
     {
-        //private const string MUSIC_PATH = "Resources/gameMusic.wav";
+        private const string MUSIC_PATH = "..\\..\\Resources\\gameMusic.wav";
+        private const string NO_VOLUME_PATH = "..\\..\\Resources\\noVolume.png";
+        private const string VOLUME_PATH = "..\\..\\Resources\\Volume.png";
 
         public Random random = new Random();
         SolidBrush snake;
@@ -33,13 +35,13 @@ namespace GameSnake
 
         private bool flag = true;
 
-        // private SoundPlayer player = new SoundPlayer(); // Звук на играта
+        private SoundPlayer player = new SoundPlayer(); // Звук на играта
         
         public Form1()
         {
             InitializeComponent();
-            //player.SoundLocation = MUSIC_PATH;//Файлът, който се използва
-            //player.PlayLooping(); //За пускане на музиката за постоянно 
+            player.SoundLocation = MUSIC_PATH;//Файлът, който се използва
+            player.PlayLooping(); //За пускане на музиката за постоянно 
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -95,7 +97,8 @@ namespace GameSnake
             {
                 timer1.Stop();
                 this.Hide();
-                //player.Stop();
+                player.Stop();
+                player.Dispose();
                 GameOverForm gameOverForm = new GameOverForm();
                 gameOverForm.ShowDialog();
             }
@@ -104,7 +107,8 @@ namespace GameSnake
             {
                 timer1.Stop();
                 this.Hide();
-               // player.Stop();
+                player.Stop();
+                player.Dispose();
                 GameOverForm gameOverForm = new GameOverForm();
                 gameOverForm.ShowDialog();
 
@@ -142,6 +146,7 @@ namespace GameSnake
 
         private void cmdExit_Click(object sender, EventArgs e)
         {
+            player.Dispose();
             Environment.Exit(0);//Затваря програмата
         }
 
@@ -176,14 +181,14 @@ namespace GameSnake
         {
             if (flag)
             {
-               // player.Stop();
-                pbVolume.Image = Image.FromFile("..\\..\\Resources\\noVolume.png");
+                player.Stop();
+                pbVolume.Image = Image.FromFile(NO_VOLUME_PATH);
                 flag = false;
             }
             else
             {
-               // player.Play();
-                pbVolume.Image = Image.FromFile("..\\..\\Resources\\Volume.png");
+                player.Play();
+                pbVolume.Image = Image.FromFile(VOLUME_PATH);
                 flag = true;
             }
         }
