@@ -29,10 +29,19 @@ namespace GameSnake
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // GameOverForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "GameOverForm";
             this.Text = "GameOverForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOverForm_FormClosing);
+            this.Load += new System.EventHandler(this.GameOverForm_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

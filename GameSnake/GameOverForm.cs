@@ -16,5 +16,15 @@ namespace GameSnake
         {
             InitializeComponent();
         }
+
+        private void GameOverForm_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void GameOverForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
