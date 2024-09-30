@@ -29,6 +29,7 @@ namespace GameSnake
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameOverForm));
             this.SuspendLayout();
             // 
             // GameOverForm
@@ -36,8 +37,9 @@ namespace GameSnake
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameOverForm";
-            this.Text = "GameOverForm";
+            this.Text = "Winning";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOverForm_FormClosing);
             this.Load += new System.EventHandler(this.GameOverForm_Load);
             this.ResumeLayout(false);

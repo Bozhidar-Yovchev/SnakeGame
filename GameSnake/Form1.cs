@@ -147,10 +147,11 @@ namespace GameSnake
             pen.Dispose();
             g.Dispose();
             pbVolume.Image.Dispose();
-            GameOverForm gameOverForm = new GameOverForm();
-            gameOverForm.ShowDialog();
+           // MessageBox.Show("You Lose","End Game");
+            //GameOverForm gameOverForm = new GameOverForm();
+            //gameOverForm.ShowDialog();
         }
-        private void Draw()
+        private void DrawSnake()
         {
             foreach (var pair in coordinates)
             {
@@ -293,7 +294,7 @@ namespace GameSnake
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Draw();
+            DrawSnake();
             MoveSnake();
         }
 
