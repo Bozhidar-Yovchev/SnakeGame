@@ -25,33 +25,32 @@ namespace GameSnake
         Pen pen;
         Graphics g;
         Queue<Coordinates> coordinates;
-        int snakeSize = 40;//Първоначална дължина на змията
+        int snakeSize = 40;
 
         int x = 50;
         int y = 50;
-        bool[] coords = new bool[4] { false, false, false, true }; // нагоре надолу наляво надясно
+        bool[] coords = new bool[4] { false, false, false, true }; 
 
         int size = 20;
-        int step = 3;//С колко да се движи
+        int step = 3;
 
         private bool flag = true;
 
-        private SoundPlayer player = new SoundPlayer(); // Звук на играта
+        private SoundPlayer player = new SoundPlayer(); 
 
         private Point foodPosition;
         private int foodSize = 20;
         SolidBrush foodBrush;
-        
+        int count = 0;
 
         public Form1()
         {
             InitializeComponent();
-            player.SoundLocation = MUSIC_PATH;//Файлът, който се използва
-            player.PlayLooping(); //За пускане на музиката за постоянно 
+            player.SoundLocation = MUSIC_PATH;
+            player.PlayLooping(); 
 
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -60,8 +59,7 @@ namespace GameSnake
             timer1.Interval = 10;
             coordinates = new Queue<Coordinates>(snakeSize);
             pen = new Pen(Color.Red, 6);
-
-            PlaceFood();
+            PlaceFood(); 
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -92,11 +90,8 @@ namespace GameSnake
 
         }
 
-
         private void MoveSnake()
         {
-
-
             if (coords[0])
                 y -= step;
             else if (coords[1])
@@ -106,35 +101,40 @@ namespace GameSnake
             else if (coords[3])
                 x += step;
 
-
-
-            if (x >= this.ClientSize.Width || x <= 4 || y <= 4 || y >= this.ClientSize.Height)//Когато достигне края на полето по дължина да свършва играта
+            if (x >= this.ClientSize.Width || x <= 4 || y <= 4 || y >= this.ClientSize.Height)
             {
                 EndGame();
-                return;
+                MessageBox.Show("You lose");
             }
-
 
             if (coordinates.Count != snakeSize)
                 coordinates.Enqueue(new Coordinates(x, y));
             else
             {
-                Coordinates removed = coordinates.Dequeue();//Премахва изминатите кординати от змията
+                Coordinates removed = coordinates.Dequeue();
                 g.FillEllipse(new SolidBrush(this.BackColor), removed.X, removed.Y, size, size);
-                coordinates.Enqueue(new Coordinates(x, y));//Добавя новите кординати на змията
+                coordinates.Enqueue(new Coordinates(x, y));
             }
-            
+
             if (Math.Abs(x - foodPosition.X) < size && Math.Abs(y - foodPosition.Y) < size)
             {
-                // Snake eats the food
-                snakeSize+=3; // Increase snake size
+                
+                snakeSize+=3; 
                 step += 1;
-                
-                PlaceFood(); // Move food to a new random position
-                DrawSnakeFood();
-                
-            }
-          
+
+                g.FillEllipse(new SolidBrush(this.BackColor), foodPosition.X, foodPosition.Y, foodSize, foodSize);
+                if (count <= 9)
+                {
+                    PlaceFood(); 
+                    DrawSnakeFood();
+                    count++;
+                }
+                else 
+                { 
+                    EndGame();
+                    MessageBox.Show("YOU WINNN");
+                }
+            } 
         }
 
         private void EndGame()
@@ -147,18 +147,16 @@ namespace GameSnake
             pen.Dispose();
             g.Dispose();
             pbVolume.Image.Dispose();
-           // MessageBox.Show("You Lose","End Game");
-            //GameOverForm gameOverForm = new GameOverForm();
-            //gameOverForm.ShowDialog();
         }
+
         private void DrawSnake()
         {
             foreach (var pair in coordinates)
             {
-                g.FillEllipse(snake, pair.X, pair.Y, size, size);// Изчертаване на змията
+                g.FillEllipse(snake, pair.X, pair.Y, size, size);
             }
+            g.DrawRectangle(pen, 3, 3, this.ClientSize.Width - 6, this.ClientSize.Height - 6);
         }
-      
 
         private void DrawSnakeFood()
         {
@@ -169,8 +167,6 @@ namespace GameSnake
 
         private void lblSnakeColor_Click(object sender, EventArgs e)
         {
-            
-            //Цвят на змията
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 snake = new SolidBrush(colorDialog1.Color);
@@ -179,7 +175,6 @@ namespace GameSnake
 
         private void lblBackgroundColor_Click(object sender, EventArgs e)
         {
-            //Цвят на фона
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 BackColor = colorDialog1.Color;
@@ -188,7 +183,6 @@ namespace GameSnake
 
         private void lblFrameColor_Click(object sender, EventArgs e)
         {
-            //цвят на рамката
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 pen.Color = colorDialog1.Color;
@@ -286,10 +280,7 @@ namespace GameSnake
             {
                 pbVolume.Image.Dispose();
             }
-
-
             Application.Exit();
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -302,7 +293,5 @@ namespace GameSnake
         {
             foodPosition = new Point(random.Next(15, this.ClientSize.Width - 30), random.Next(15, this.ClientSize.Height - 30));
         }
-
-
     }
 }
